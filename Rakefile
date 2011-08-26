@@ -86,4 +86,5 @@ namespace :cucumber do
     %x{killall firefox}
   end
 end
-task :cucumber => ['cucumber:setup_js_with_vnc4server', 'cucumber:all', 'cucumber:kill_js']
+#task :cucumber => ['cucumber:setup_js_with_vnc4server', 'cucumber:all', 'cucumber:kill_js']
+task :cucumber => ['cucumber:all']
