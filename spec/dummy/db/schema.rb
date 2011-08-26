@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110826181030) do
+ActiveRecord::Schema.define(:version => 20110826183240) do
 
   create_table "trackable_tasks_task_runs", :force => true do |t|
     t.string   "task_type"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20110826181030) do
     t.datetime "end_time"
     t.text     "error_text"
     t.text     "log_text"
-    t.boolean  "success"
+    t.boolean  "success",    :default => false
   end
 
 end

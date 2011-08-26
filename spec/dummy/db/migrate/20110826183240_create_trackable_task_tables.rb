@@ -6,7 +6,7 @@ class CreateTrackableTaskTables < ActiveRecord::Migration
       t.datetime :end_time
       t.text :error_text
       t.text :log_text
-      t.boolean :success
+      t.boolean :success, :default => false
     end 
   end
 
