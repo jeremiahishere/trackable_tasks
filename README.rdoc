@@ -1,6 +1,40 @@
 = trackable_tasks
 
-Description goes here.
+A class to put rspec tasks in that includes tracking and logging the data in the tasks.
+
+= Installation
+
+Add the gem to your gem file
+
+    gem "trackable_tasks"
+
+Run the install generator and migrate
+
+    rails generate trackable_tasks:install
+    rake db:migrate
+
+= How to use
+
+The install generators adds a rake task to the system called trackable_task.  This task is used to call all of the trackable tasks.
+
+    rake trackable_task my_task
+
+The trackable task rake task looks for a class in /lib/trackable_tasks/my_task.rb called MyTask.  MyTask must have the supertype AbstractTrackableTask.  Something like this:
+
+class MyTask < AbstractTrackableTask
+  def run 
+    puts "hello"
+  end 
+end
+
+
+The rake task calls initialize, on the object which sets up the tracking environment.  The initialize function automatically calls run to run the task.
+
+Future work includes setting log levels as a rake parameter
+
+== Future Work
+
+* lots
 
 == Contributing to trackable_tasks
  
