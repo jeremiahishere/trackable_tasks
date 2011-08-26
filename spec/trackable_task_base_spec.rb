@@ -7,6 +7,8 @@ describe TrackableTasks::Base do
 
   describe "initialize method" do
     it "should create a task run instance"
+    it "should set the start time"
+    it "should set the type"
   end
 
   describe "run_task" do
@@ -20,6 +22,7 @@ describe TrackableTasks::Base do
   end
 
   describe "log method" do
+    it "should take one argument"
     it "should call the task run's add_log_text method"
   end
 end
