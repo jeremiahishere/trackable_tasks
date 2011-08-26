@@ -1,4 +1,4 @@
-class <%= migration_class_name %> < ActiveRecord::Migration
+class CreateTrackableTaskTables < ActiveRecord::Migration
   def self.up
     create_table :trackable_tasks_task_runs do |t|
       t.string :task_type
