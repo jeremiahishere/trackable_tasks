@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "trackable_tasks"
   gem.homepage = "http://github.com/jeremiahishere/trackable_tasks"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Adds tracking to rake tasks}
+  gem.description = %Q{Adds tracking to rake tasks including error capturing and logging.}
   gem.email = "jeremiah@cloudspace.com"
   gem.authors = ["Jeremiah Hemphill"]
   # dependencies defined in Gemfile
@@ -43,3 +43,47 @@ task :default => :spec
 
 require 'yard'
 YARD::Rake::YardocTask.new
+
+# hudson ci
+require 'ci/reporter/rake/rspec'
+namespace :hudson do
+  def report_path
+    "spec/reports/"
+  end
+
+  task :report_setup do
+    rm_rf report_path
+    mkdir_p report_path
+  end
+
+  # hudson cucumber rake task
+  Cucumber::Rake::Task.new(:cucumber, "Run cucumber with hudson output") do |t|
+    t.cucumber_opts = %{spec/dummy/features --format junit --out #{report_path}}
+  end
+end
+
+#general cucumber rake tasks
+require 'cucumber/rake/task'
+namespace :cucumber do
+  Cucumber::Rake::Task.new(:all, 'run features that should pass') do |t|
+    t.cucumber_opts = "spec/dummy/features --format progress"
+  end
+  Cucumber::Rake::Task.new(:no_js, 'run features that should pass') do |t|
+    t.cucumber_opts = "spec/dummy/features --format progress --tags ~@javascript"
+  end
+
+  task :setup_js_with_vnc4server do
+    puts "Cucumber test with vnc4server"
+    ENV['DISPLAY'] = ":99"
+    %x{vncserver :99 2>/dev/null >/dev/null &}
+    %x{DISPLAY=:99 firefox 2>/dev/null >/dev/null &}
+  end
+
+  task :kill_js do
+    puts "Killing vnc, xvfb, and ff processes"
+    %x{killall Xvnc4}
+    %x{killall Xvfb}
+    %x{killall firefox}
+  end
+end
+task :cucumber => ['cucumber:setup_js_with_vnc4server', 'cucumber:all', 'cucumber:kill_js']
