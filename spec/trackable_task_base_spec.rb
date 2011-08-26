@@ -6,12 +6,20 @@ describe TrackableTasks::Base do
   end
 
   describe "initialize method" do
-    it "should errror on initialize"
+    it "should create a task run instance"
+  end
+
+  describe "run_task" do
+    it "should call the run method"
+    it "should handle errors from the run method by saving them to the error log"
+    it "should set the task run's success field to true if no errors have been added"
   end
 
   describe "run method" do
+    it "should error if it isn't overriden"
   end
 
   describe "log method" do
+    it "should call the task run's add_log_text method"
   end
 end
