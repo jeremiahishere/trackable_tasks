@@ -40,9 +40,61 @@ describe TaskRun do
   end
 
   describe "add_log_text method" do
+    before(:each) do
+      @run = TaskRun.new()
+      @text = "This trackable task is cool"
+    end
+
+    it "should take one parameter" do
+      @run.method(:add_log_text).arity.should == 1
+    end
+
+    it "should add a newline after the input text" do
+      @run.add_log_text(@text)
+      @run.log_text.should == (@text + "\n")
+    end
+
+    it "should save the string to the log_text if it is empty" do
+      @run.add_log_text(@text)
+      @run.log_text.should match @text
+    end
+    
+    it "should append the string to the text if it is not empty" do
+      original_text = "first log text"
+      @run.log_text = original_text
+      @run.add_log_text(@text)
+      @run.log_text.should match original_text
+      @run.log_text.should match @text
+    end
+
   end
 
   describe "add_error_text method" do
+    before(:each) do
+      @run = TaskRun.new()
+      @text = "This trackable task is erroring"
+    end
+
+    it "should take one parameter" do
+      @run.method(:add_error_text).arity.should == 1
+    end
+
+    it "should add a newline after the input text" do
+      @run.add_error_text(@text)
+      @run.error_text.should == (@text + "\n")
+    end
+
+    it "should save the string to the error_text if it is empty" do
+      @run.add_error_text(@text)
+      @run.error_text.should match @text
+    end
+    
+    it "should append the string to the text if it is not empty" do
+      original_text = "first log text"
+      @run.error_text = original_text
+      @run.add_error_text(@text)
+      @run.error_text.should match original_text
+      @run.error_text.should match @text
+    end
   end
-  
 end
