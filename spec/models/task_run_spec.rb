@@ -1,3 +1,4 @@
+require 'spec_helper'
 include TrackableTasks
 
 describe TaskRun do
