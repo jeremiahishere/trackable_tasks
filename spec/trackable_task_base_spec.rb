@@ -23,6 +23,15 @@ describe TrackableTasks::Base do
       # it should be successful on initialization
       @task_run.success.should be_true
     end
+
+    it "should save the log level"
+    it "should default to notice if no log level is set"
+    it "should call allowable_log_level"
+  end
+
+  describe "allowable_log_level method" do
+    it "should change the log level to notice if not an allowable level"
+
   end
 
   describe "run_task" do
@@ -72,6 +81,7 @@ describe TrackableTasks::Base do
     end
 
     it "should take one argument" do
+      pending
       @mt.method(:log).arity.should == 1
     end
 
@@ -82,5 +92,16 @@ describe TrackableTasks::Base do
       @task_run = TrackableTasks::TaskRun.last
       @task_run.log_text.should match "test log text"
     end
+
+    it "should default to a log level of notice"
+    it "should call allowable_log_level"
+
+    it "should save debug logs if the log level is set to debug"
+    it "should not save debug logs if the log level is not set to debug"
+
+    it "should save notice logs if the log level is debug or notice"
+    it "should not save notice logs if the log level is not set to debug or notice"
+
+    it "should save error logs to the error_text instead of the log_text"
   end
 end
