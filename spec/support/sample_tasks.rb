@@ -1,10 +1,11 @@
 class MyTask < TrackableTasks::Base
   
-  def initialize
-    #puts "Initializing"
-    super
+  # convenience method to make our lives easier
+  # @task_run is not noramlly visible
+  def task_run
+    @task_run
   end
-
+  
   def run
     #log "Running MyTask"
   end
