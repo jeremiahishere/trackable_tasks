@@ -9,6 +9,7 @@ namespace :trackable_task do
     file_name['.rb'] = ''
     trackable_task_list.push(file_name.to_sym)
   end
+  puts "running the trackable task loader"
 
   trackable_task_list.each do |task_name|
     desc "Trackable task for #{task_name.to_s.camelize}.  Log levels include debug, notice, and error."
@@ -20,5 +21,11 @@ namespace :trackable_task do
           # initialize
           # run task
     end
+  end
+
+  desc "Runs a trackable task by passing in the task as an argument"
+  task :run_task, :task_name, :log_level do |t, args|
+    args[:log_level] = args.with_defaults(:log_level => :notice)
+    puts "I am running #{args[:task_name]} at log level #{args[:log_level]}"
   end
 end
