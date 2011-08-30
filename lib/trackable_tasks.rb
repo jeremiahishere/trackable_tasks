@@ -2,4 +2,4 @@
 require File.join(%w{trackable_tasks base})
 
 require "trackable_tasks/engine"
-require "trackable_tasks/railtie"
+#require "trackable_tasks/railtie"
