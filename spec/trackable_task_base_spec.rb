@@ -47,7 +47,13 @@ describe TrackableTasks::Base do
       @mt.allowable_log_level(:notice).should == :notice
     end
 
-    it "should convert the input to a symbol before comparing it against the allowable log levels"
+    it "should convert the input to a string before comparing if it is nil" do
+      @mt.allowable_log_level(nil).should == :notice
+    end
+
+    it "should convert the input to a symbol before comparing it against the allowable log levels" do
+      @mt.allowable_log_level("error").should == :error
+    end
   end
 
   describe "run_task" do

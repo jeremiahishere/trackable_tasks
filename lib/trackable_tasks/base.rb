@@ -38,6 +38,7 @@ module TrackableTasks
     # @param [Sybmol] log_level Log level to check
     # @return [Symbol] The given log level or notice if it is not allowable
     def allowable_log_level(log_level) 
+      log_level = "" if log_level.nil?
       log_level = log_level.to_sym unless log_level.is_a?(Symbol)
       if !@log_levels.include?(log_level)
         log_level = :notice
