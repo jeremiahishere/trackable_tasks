@@ -1,4 +1,7 @@
 == 0.0.1
 
 * Initial release
-* Added a partial readme
+* TrackableTasks::Base class that determines how data is logged and stored
+* Includes tests that show how to instantiate the Base class to use a trackable task
+* TaskRun model that stores logging data associated with a trackable task
+* Set of rake tasks to instantiate and run the trackable tasks
