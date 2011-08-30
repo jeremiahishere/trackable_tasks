@@ -1,5 +1,6 @@
 include Rake::DSL
 
+# Careful when editing this file.  It may be overwritten when the gem is updated.
 namespace :trackable_task do
 
   # loads the trackable tasks from /lib/trackable_tasks
