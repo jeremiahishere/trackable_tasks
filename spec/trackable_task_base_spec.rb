@@ -46,6 +46,8 @@ describe TrackableTasks::Base do
     it "should not change the level if it is allowable" do
       @mt.allowable_log_level(:notice).should == :notice
     end
+
+    it "should convert the input to a symbol before comparing it against the allowable log levels"
   end
 
   describe "run_task" do

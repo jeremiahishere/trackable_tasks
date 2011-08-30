@@ -1,8 +1,9 @@
 include Rake::DSL
-require 'ruby-debug'
-# call with 'rake trackable_task:my_task log_level=debug' or 'rake trackable_task:my_task[:debug]'
+
 namespace :trackable_task do
 
+  # loads the trackable tasks from /lib/trackable_tasks
+  # this may be moved to a config file at some point
   trackable_task_list = []
   Dir.foreach("#{::Rails.root.to_s}/lib/trackable_tasks/") do |file_name|
     next if file_name == "." || file_name == ".."
@@ -10,6 +11,7 @@ namespace :trackable_task do
     trackable_task_list.push(file_name.to_sym)
   end
 
+  # turns the array of trackable tasks into individual rake tasks
   trackable_task_list.each do |task_name|
     desc "Trackable task for #{task_name.to_s.camelize}.  Optionally set the log_level ENV variable to debug, notice, and error."
     task task_name => :environment do |t|
@@ -18,6 +20,7 @@ namespace :trackable_task do
     end
   end
 
+  # single rake task that can run any trackable task
   desc "Runs a trackable task by passing in the task as an argument"
   task :run => :environment do |t|
     task_name = ENV["task_name"]
@@ -25,6 +28,10 @@ namespace :trackable_task do
     run_trackable_task(task_name, log_level)
   end
 
+  # Runs the trackable task by constantizing the task name, initializing, and calling run task
+  #
+  # @param [String] The name of the task class
+  # @param [String] The log level for the task
   def run_trackable_task(task_name, log_level)
     #puts "I am running #{task_name} at log level #{log_level}"
     require "#{::Rails.root.to_s}/lib/trackable_tasks/#{task_name}.rb"
