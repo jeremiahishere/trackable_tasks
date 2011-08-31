@@ -37,10 +37,10 @@ namespace :trackable_task do
     #puts "I am running #{task_name} at log level #{log_level}"
     require "#{::Rails.root.to_s}/lib/trackable_tasks/#{task_name}.rb"
     # if the class exists
-    task = task_name.camelize.constantize.new(log_level)
+    trackable_task = task_name.camelize.constantize.new(log_level)
     # if the class has a superclass of trackable task base
-    if task.class.superclass == TrackableTasks::Base
-      task.run_task
+    if trackable_task.class.superclass == TrackableTasks::Base
+      trackable_task.run_task
     else
       puts "The task #{task_name} was not an instance of TrackableTasks::Base."
     end
