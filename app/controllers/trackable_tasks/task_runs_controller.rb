@@ -1,9 +1,9 @@
 # Index and show controller for TaskRuns 
 # TaskRuns should not be created or edited here because they are generate by rake tasks 
-class TaskRunsController < ApplicationController
+class TrackableTasks::TaskRunsController < ApplicationController
   # Lists all tasks in task run 
   def index    
-    @taskruns = TrackableTasks::TaskRun.all
+    @task_runs = TrackableTasks::TaskRun.all
     
     respond_to do |format|
       format.html # index.html.erb
@@ -12,7 +12,7 @@ class TaskRunsController < ApplicationController
   
   # Lists specific task run 
   def show
-    @taskrun = TrackableTasks::TaskRun.find_by_id(params[:id])
+    @task_run = TrackableTasks::TaskRun.find_by_id(params[:id])
     
     
     respond_to do |format|

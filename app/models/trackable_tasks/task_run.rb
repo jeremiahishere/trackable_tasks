@@ -35,5 +35,28 @@ module TrackableTasks
       self.error_text = "" if self.error_text.nil?
       self.error_text += text + "\n"
     end
+    
+    # Creates run time based on start and end time   
+    # @return [String] The run time formatted in hours, minutes and seconds
+    def run_time
+      if self.end_time         
+         return Time.at(self.end_time - self.start_time).gmtime.strftime('%R:%S')
+      else
+         return "Run has not completed."
+      end
+    end 
+    
+    # Determines error message color based on success and whether or not there is error text  
+    # Return value corresponds to a css color 
+    # @return [String] The color of the status/error message
+    def status_color
+      if self.success && self.error_text.nil?
+        return 'green'
+      elsif self.success
+        return 'yellow'
+      else
+        return 'red'
+      end
+    end       
   end
 end
