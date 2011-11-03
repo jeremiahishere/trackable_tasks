@@ -36,8 +36,10 @@ module TrackableTasks
       self.error_text += text + "\n"
     end
     
-    # Creates run time based on start and end time   
+    # Creates run time based on start and end time
+    # If there is no end_time, display 'Run has not completed.'  
     # @return [String] The run time formatted in hours, minutes and seconds
+    # @return [String] Message that run has not completed 
     def run_time
       if self.end_time         
          return Time.at(self.end_time - self.start_time).gmtime.strftime('%R:%S')

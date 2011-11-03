@@ -14,7 +14,7 @@ describe TaskRun do
 
     it "should be valid" do
       @run.attributes = @valid_attributes
-      @run.should be_valid
+      @run.should be_valid      
     end
 
     it "should require task type" do
@@ -97,4 +97,45 @@ describe TaskRun do
       @run.error_text.should match @text
     end
   end
+  
+  describe "status_color method" do
+    before(:each) do
+      @run = TaskRun.new()      
+    end
+    
+    it "should return green if success is true and error_text is empty (nil)" do
+      @run.success = true
+      @run.error_text = nil
+      @run.status_color.should == "green"  
+    end
+    
+    it "should return yellow if success is true but there is error_text" do
+      @run.success = true
+      @run.error_text = "Error text"
+      @run.status_color.should == "yellow"
+    end
+    
+    it "should return red if success is false" do
+      @run.success = false
+      @run.status_color.should == "red"      
+    end        
+  end
+  
+  describe "run_time method" do
+    before(:each) do
+      @run = TaskRun.new()      
+    end    
+    
+    it "should return the time formatted in hours, minutes and seconds if end_time is true" do
+      @run.start_time = Time.at(3)
+      @run.end_time = Time.at(946702800)
+      @run.run_time.should == Time.at(@run.end_time - @run.start_time).gmtime.strftime('%R:%S')       
+    end
+    
+    it "should return a string 'Run has not completed' if end_time is false" do
+      @run.end_time = false
+      @run.run_time.should == "Run has not completed."
+    end    
+  end
+
 end
