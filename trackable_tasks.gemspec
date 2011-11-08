@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{trackable_tasks}
-  s.version = "0.0.3"
+  s.version = "0.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Jeremiah Hemphill}]
-  s.date = %q{2011-09-01}
+  s.date = %q{2011-11-08}
   s.description = %q{Adds tracking to rake tasks including error capturing and logging.}
   s.email = %q{jeremiah@cloudspace.com}
   s.extra_rdoc_files = [
@@ -26,7 +26,10 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "app/controllers/trackable_tasks/task_runs_controller.rb",
     "app/models/trackable_tasks/task_run.rb",
+    "app/views/trackable_tasks/task_runs/index.html.erb",
+    "app/views/trackable_tasks/task_runs/show.html.erb",
     "config/routes.rb",
     "lib/generators/trackable_tasks/install_generator.rb",
     "lib/generators/trackable_tasks/templates/migrations/install_migration.rb.erb",
@@ -58,7 +61,11 @@ Gem::Specification.new do |s|
     "spec/dummy/db/migrate/20110826183240_create_trackable_task_tables.rb",
     "spec/dummy/db/schema.rb",
     "spec/dummy/features/step_definitions/trackable_tasks_steps.rb",
+    "spec/dummy/features/step_definitions/web_steps.rb",
     "spec/dummy/features/support/env.rb",
+    "spec/dummy/features/support/paths.rb",
+    "spec/dummy/features/support/selectors.rb",
+    "spec/dummy/features/task_run.feature",
     "spec/dummy/lib/tasks/trackable_tasks.rake",
     "spec/dummy/lib/trackable_tasks/my_task.rb",
     "spec/dummy/public/404.html",
