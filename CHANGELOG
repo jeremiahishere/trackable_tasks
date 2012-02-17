@@ -1,3 +1,7 @@
+==0.0.6
+
+* Added timestamps to the task run table
+
 == 0.0.4
 
 * Added a basic controller to display information about the task runs
