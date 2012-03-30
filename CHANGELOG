@@ -1,6 +1,9 @@
-==0.0.6
+== unreleased changes
+
+== 0.0.6
 
 * Added timestamps to the task run table
+* Fixed down method in the trackable tasks migration
 
 == 0.0.4
 
