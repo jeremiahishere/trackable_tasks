@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "trackable_tasks"
-  s.version = "0.0.5"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremiah Hemphill"]
-  s.date = "2012-02-17"
+  s.date = "2012-03-30"
   s.description = "Adds tracking to rake tasks including error capturing and logging."
   s.email = "jeremiah@cloudspace.com"
   s.extra_rdoc_files = [
