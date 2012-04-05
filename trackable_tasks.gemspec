@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "trackable_tasks"
-  s.version = "0.0.6"
+  s.version = "0.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremiah Hemphill"]
-  s.date = "2012-03-30"
+  s.date = "2012-04-05"
   s.description = "Adds tracking to rake tasks including error capturing and logging."
   s.email = "jeremiah@cloudspace.com"
   s.extra_rdoc_files = [
@@ -99,7 +99,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["~> 3.0.7"])
+      s.add_runtime_dependency(%q<rails>, [">= 3.0.7"])
       s.add_development_dependency(%q<capybara>, [">= 0.4.0"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
       s.add_development_dependency(%q<ruby-debug19>, [">= 0"])
@@ -115,7 +115,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<json>, [">= 0"])
       s.add_development_dependency(%q<ci_reporter>, [">= 0"])
     else
-      s.add_dependency(%q<rails>, ["~> 3.0.7"])
+      s.add_dependency(%q<rails>, [">= 3.0.7"])
       s.add_dependency(%q<capybara>, [">= 0.4.0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<ruby-debug19>, [">= 0"])
@@ -132,7 +132,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<ci_reporter>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rails>, ["~> 3.0.7"])
+    s.add_dependency(%q<rails>, [">= 3.0.7"])
     s.add_dependency(%q<capybara>, [">= 0.4.0"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
     s.add_dependency(%q<ruby-debug19>, [">= 0"])
