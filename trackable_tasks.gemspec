@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremiah Hemphill"]
-  s.date = "2012-04-05"
+  s.date = "2012-04-12"
   s.description = "Adds tracking to rake tasks including error capturing and logging."
   s.email = "jeremiah@cloudspace.com"
   s.extra_rdoc_files = [
@@ -99,54 +99,15 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<trackable_tasks>, [">= 0"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.7"])
-      s.add_development_dependency(%q<capybara>, [">= 0.4.0"])
-      s.add_development_dependency(%q<sqlite3>, [">= 0"])
-      s.add_development_dependency(%q<ruby-debug19>, [">= 0"])
-      s.add_development_dependency(%q<rspec>, ["~> 2.6.0"])
-      s.add_development_dependency(%q<rspec-rails>, ["~> 2.6.1"])
-      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
-      s.add_development_dependency(%q<cucumber>, [">= 0"])
-      s.add_development_dependency(%q<cucumber-rails>, [">= 0"])
-      s.add_development_dependency(%q<database_cleaner>, [">= 0"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.6.3"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
-      s.add_development_dependency(%q<json>, [">= 0"])
-      s.add_development_dependency(%q<ci_reporter>, [">= 0"])
     else
+      s.add_dependency(%q<trackable_tasks>, [">= 0"])
       s.add_dependency(%q<rails>, [">= 3.0.7"])
-      s.add_dependency(%q<capybara>, [">= 0.4.0"])
-      s.add_dependency(%q<sqlite3>, [">= 0"])
-      s.add_dependency(%q<ruby-debug19>, [">= 0"])
-      s.add_dependency(%q<rspec>, ["~> 2.6.0"])
-      s.add_dependency(%q<rspec-rails>, ["~> 2.6.1"])
-      s.add_dependency(%q<yard>, ["~> 0.6.0"])
-      s.add_dependency(%q<cucumber>, [">= 0"])
-      s.add_dependency(%q<cucumber-rails>, [">= 0"])
-      s.add_dependency(%q<database_cleaner>, [">= 0"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.6.3"])
-      s.add_dependency(%q<rcov>, [">= 0"])
-      s.add_dependency(%q<json>, [">= 0"])
-      s.add_dependency(%q<ci_reporter>, [">= 0"])
     end
   else
+    s.add_dependency(%q<trackable_tasks>, [">= 0"])
     s.add_dependency(%q<rails>, [">= 3.0.7"])
-    s.add_dependency(%q<capybara>, [">= 0.4.0"])
-    s.add_dependency(%q<sqlite3>, [">= 0"])
-    s.add_dependency(%q<ruby-debug19>, [">= 0"])
-    s.add_dependency(%q<rspec>, ["~> 2.6.0"])
-    s.add_dependency(%q<rspec-rails>, ["~> 2.6.1"])
-    s.add_dependency(%q<yard>, ["~> 0.6.0"])
-    s.add_dependency(%q<cucumber>, [">= 0"])
-    s.add_dependency(%q<cucumber-rails>, [">= 0"])
-    s.add_dependency(%q<database_cleaner>, [">= 0"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.6.3"])
-    s.add_dependency(%q<rcov>, [">= 0"])
-    s.add_dependency(%q<json>, [">= 0"])
-    s.add_dependency(%q<ci_reporter>, [">= 0"])
   end
 end
 
