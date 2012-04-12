@@ -1,5 +1,9 @@
 == unreleased changes
 
+== 0.0.10
+
+* trial and error to fix a random require 'ruby-debug' in the code
+
 == 0.0.7
 
 * Relaxed rails version restriction
