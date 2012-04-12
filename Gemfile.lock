@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     trackable_tasks (0.0.7)
-      jeweler (~> 1.6.3)
       rails (>= 3.0.7)
+      trackable_tasks
 
 GEM
   remote: http://rubygems.org/
@@ -96,5 +96,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  jeweler (~> 1.6.3)
   rails (>= 3.0.7)
   trackable_tasks!
