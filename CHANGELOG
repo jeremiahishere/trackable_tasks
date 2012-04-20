@@ -6,7 +6,8 @@
 
 == 0.0.10
 
-* Trial and error to finding a random require 'ruby-debug'
+* trial and error to fix a random require 'ruby-debug' in the code
+
 == 0.0.7
 
 * Relaxed rails version restriction

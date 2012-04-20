@@ -1,5 +1,3 @@
-require 'ruby-debug'
-
 module TrackableTasks
   # Abstract trackable task to be overriden when creating a trackable task.
   #

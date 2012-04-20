@@ -1,8 +1,10 @@
 source "http://rubygems.org"
+gemspec
 
 gem "rails", ">= 3.0.7"
 
 group :development do
+  gem "jeweler", "~> 1.6.3"
   gem "capybara", ">= 0.4.0"
   gem "sqlite3"
   gem 'ruby-debug19'
