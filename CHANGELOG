@@ -1,5 +1,12 @@
 == unreleased changes
 
+== 0.0.11
+
+* Displaying times in date time format instead of only date
+
+== 0.0.10
+
+* Trial and error to finding a random require 'ruby-debug'
 == 0.0.7
 
 * Relaxed rails version restriction

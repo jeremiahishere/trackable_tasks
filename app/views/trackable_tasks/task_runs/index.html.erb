@@ -12,7 +12,7 @@
     <% @task_runs.each do |task_run| %>
   	  <tr>
         <td> <%= task_run.task_type %> </td>
-        <td> <%= task_run.start_time.strftime('%D') %> </td>
+        <td> <%= task_run.start_time.strftime('%D %r') %> </td>
         <td> <%= task_run.run_time %>
         <td> <span style="color: <%= task_run.status_color %>"><%= task_run.success %>  </span></td>
         <td> <%= link_to 'Show', task_run %> </td>
