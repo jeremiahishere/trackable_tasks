@@ -69,6 +69,51 @@ describe TaskRun do
 
   end
 
+  describe "today scope" do
+    before(:each) do
+      @today = TrackableTasks::TaskRun.create!(:task_type => "test task", :start_time => 5.hours.ago, :end_time => 3.hours.ago, :success => true)
+      @yesterday = TrackableTasks::TaskRun.create!(:task_type => "test task", :start_time => 30.hours.ago, :end_time => 29.hours.ago, :success => true)
+    end
+
+    it "should include today" do
+      TrackableTasks::TaskRun.today.should include @today
+    end
+
+    it "should not include yesterday" do
+      TrackableTasks::TaskRun.today.should_not include @yesterday
+    end
+  end
+
+  describe "this_week scope" do
+    before(:each) do
+      @this_week= TrackableTasks::TaskRun.create!(:task_type => "test task", :start_time => 5.days.ago, :end_time => 3.days.ago, :success => true)
+      @older = TrackableTasks::TaskRun.create!(:task_type => "test task", :start_time => 30.days.ago, :end_time => 29.days.ago, :success => true)
+    end
+
+    it "should include this week" do
+      TrackableTasks::TaskRun.this_week.should include @this_week
+    end
+
+    it "should not include older" do
+      TrackableTasks::TaskRun.this_week.should_not include @older
+    end
+  end
+
+  describe "newest_first_scope" do
+    before(:each) do
+      @today = TrackableTasks::TaskRun.create!(:task_type => "test task", :start_time => 5.hours.ago, :end_time => 3.hours.ago, :success => true)
+      @yesterday = TrackableTasks::TaskRun.create!(:task_type => "test task", :start_time => 30.hours.ago, :end_time => 29.hours.ago, :success => true)
+    end
+
+    it "today should be first" do
+      TrackableTasks::TaskRun.newest_first.first.should == @today
+    end
+
+    it "yesterday should be last" do
+      TrackableTasks::TaskRun.newest_first.last.should == @yesterday
+    end
+  end
+
   describe "add_error_text method" do
     before(:each) do
       @run = TaskRun.new()

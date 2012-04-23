@@ -1,3 +1,11 @@
+<div class='navigation'>
+  <%= link_to 'Today', trackable_tasks_task_runs_path(:timeframe => "today") %>
+  |
+  <%= link_to 'This Week', trackable_tasks_task_runs_path(:timeframe => "week") %>
+  |
+  <%= link_to 'All Time', trackable_tasks_task_runs_path(:timeframe => "all") %>
+</div>
+
 <table>
   <tr>
     <th>Task Type </th>
