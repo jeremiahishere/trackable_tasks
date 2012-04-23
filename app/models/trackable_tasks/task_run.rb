@@ -16,6 +16,11 @@ module TrackableTasks
       end
     end
 
+    scope :newest_first, lambda { order("trackable_tasks_task_runs.start_time desc") }
+    scope :today, lambda { where(["trackable_tasks_task_runs.start_time >= ?", 24.hours.ago]) }
+    # this may have some odd effects on things that are 7 days but less than 7 * 24 hours old
+    scope :this_week, lambda { where(["trackable_tasks_task_runs.start_time >= ?", 7.days.ago]) }
+
     # Appends the input text onto the log text
     #
     # I am aware that these two methods are duplicates nd we could merge them
