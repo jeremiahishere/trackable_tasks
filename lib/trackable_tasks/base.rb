@@ -52,6 +52,7 @@ module TrackableTasks
         run 
       rescue Exception => e
         @task_run.add_error_text(e.class.name + ": " + e.message)
+        @task_run.add_error_text(e.backtrace.inspect)
         @task_run.success = false
       end 
       @task_run.end_time = Time.now
