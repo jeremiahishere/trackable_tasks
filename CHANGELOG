@@ -1,5 +1,9 @@
 == unreleased changes
 
+== 0.0.13
+
+* Updated the index and show views to give better formatted error messages
+* Fixed an issue where the show page would not render if the end date was not set
 * Added a backtrace to the error log reporting when an exception is caught
 
 == 0.0.12
