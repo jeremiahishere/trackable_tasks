@@ -1,6 +1,7 @@
 == unreleased changes
 
 * Added an optional finally method to the TrackableTask::Base
+* Moved the rake task to a railtie
 
 == 0.0.13
 

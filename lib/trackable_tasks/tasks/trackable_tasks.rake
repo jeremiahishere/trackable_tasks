@@ -34,7 +34,6 @@ namespace :trackable_task do
   # @param [String] The name of the task class
   # @param [String] The log level for the task
   def run_trackable_task(task_name, log_level)
-    #puts "I am running #{task_name} at log level #{log_level}"
     require "#{::Rails.root.to_s}/lib/trackable_tasks/#{task_name}.rb"
     # if the class exists
     trackable_task = task_name.camelize.constantize.new(log_level)

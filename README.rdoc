@@ -13,7 +13,7 @@ Run the install generator and migrate.
     rails generate trackable_tasks:install
     rake db:migrate
 
-The generator also adds lib/tasks/trackable_tasks.rake.  There should be a new rake task called trackable_task:run.
+There should be a new rake task called trackable_task:run.
 
 = How to use
 
@@ -21,14 +21,18 @@ Create a trackable task.  Override the run method and put the code that needs to
 
   class MyTask < AbstractTrackableTask
     def run 
-      log "hello"
+      log "code with error catching and recovery"
     end 
+
+    def finally
+      log "optional code that is called after run finishes"
+    end
   end
 
-This creates a new dynamic rake task.  Run the trackable task using either rake task.  The RAISL_ENV can also be specified here.
+This creates a new dynamic rake task.  Run the trackable task using either rake task.  The RAILS_ENV can also be specified here.
 
   rake trackable_task:my_task
-  rake trackable_task:run task_num=my_task
+  rake trackable_task:run task_name=my_task
 
 The results can be found by looking in:
 
@@ -41,7 +45,7 @@ The log_text and error_text methods store logging and error information.  If an 
 Log levels can be set when running with a rake task
 
   rake trackable_task:my_task log_level=notice
-  rake trackable_task:run task_num=my_task log_level=error
+  rake trackable_task:run task_name=my_task log_level=error
 
 Setting the log level here determines the highest level of logs that will be saved by the task.  The three log levels are 'error', 'notice', and 'debug'.
 
@@ -56,10 +60,6 @@ Inside the script, the log function is used to store data to the task_run logs.
   log("this is a debug log", :debug)
 
 The error level logs write to task_run.log_text.  Notice and debug level logs write to task_run.log_text.
-
-== Future Work
-
-* Adding a basic controller and views to show the trackable task runs.
 
 == Contributing to trackable_tasks
  

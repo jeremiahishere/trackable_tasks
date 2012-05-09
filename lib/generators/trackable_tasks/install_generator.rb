@@ -28,11 +28,6 @@ DESC
         end
       end
 
-      # Creates the rake file
-      def copy_rake_file
-        copy_file "trackable_tasks.rake", "lib/tasks/trackable_tasks.rake"
-      end
-
       # Creates the migration
       def copy_migration
         migration_template "migrations/install_migration.rb.erb", "db/migrate/create_trackable_task_tables.rb"
