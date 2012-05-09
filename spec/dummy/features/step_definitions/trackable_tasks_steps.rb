@@ -8,7 +8,7 @@ Then (/^I should see "([^"]*)" $/) do |no_reconds|
 end
 
 Given /^a task_run exists$/ do
-  TrackableTasks::TaskRun.create(:start_time => Time.now, :task_type => 'Test Task', :success => true)
+  TrackableTasks::TaskRun.create!(:start_time => Time.now, :task_type => 'Test Task', :success => true)
 end
 
 Given /^a task_run exists with the following values$/ do |table|
@@ -18,8 +18,7 @@ Given /^a task_run exists with the following values$/ do |table|
       attributes[key_pair["key"]] = key_pair["value"]
     end     
   end  
-  TrackableTasks::TaskRun.create(attributes) 
-  TrackableTasks::TaskRun.all.count.should > 0 
+  TrackableTasks::TaskRun.create!(attributes) 
 end
 
 Given /^end_time does not exist$/ do

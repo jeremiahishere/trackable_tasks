@@ -23,6 +23,7 @@ Feature: task_run controller index and show pages
 	    | task_type | Task type 3 |
 	    | success | true |	  
 	  When I go to the task_run index page
+    And I follow "All Time"
 	  Then status_color should be green
 	
 	Scenario: should show task run on the show page

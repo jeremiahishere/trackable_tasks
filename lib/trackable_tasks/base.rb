@@ -47,6 +47,9 @@ module TrackableTasks
     # this calls task with error catching
     # if an error is caught, sets success to false and records the error
     # either way, sets an end time and saves the task run information
+    #
+    # After the run completes, whether or not the run succeeds, run finally
+    # If finally has an error, don't catch it
     def run_task
       begin
         run 
@@ -55,6 +58,9 @@ module TrackableTasks
         @task_run.add_error_text(e.backtrace.inspect)
         @task_run.success = false
       end 
+
+      finally
+
       @task_run.end_time = Time.now
       @task_run.save
     end
@@ -63,6 +69,13 @@ module TrackableTasks
     # code for the actual task goes here
     def run
       raise NotImplementedError.new("The run method must be overridden")
+    end
+
+    # The finally method can be optionally overridden for code that must run after run is completed
+    # This could be for things like temp file cleanup
+    #
+    # Note that errors are not caught and logged here
+    def finally
     end
 
     # Adds test to the log for the task run

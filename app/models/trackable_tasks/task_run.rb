@@ -4,6 +4,8 @@ module TrackableTasks
   class TaskRun < ActiveRecord::Base
     set_table_name "trackable_tasks_task_runs"
 
+    attr_accessible :start_time, :end_time, :task_type, :success
+
     validates_presence_of :start_time, :task_type
     validates_inclusion_of :success, :in => [true, false]
     validate :end_time_after_start_time

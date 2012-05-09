@@ -1,5 +1,7 @@
 == unreleased changes
 
+* Added an optional finally method to the TrackableTask::Base
+
 == 0.0.13
 
 * Updated the index and show views to give better formatted error messages
