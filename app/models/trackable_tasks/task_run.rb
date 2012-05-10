@@ -23,6 +23,40 @@ module TrackableTasks
     # this may have some odd effects on things that are 7 days but less than 7 * 24 hours old
     scope :this_week, lambda { where(["trackable_tasks_task_runs.start_time >= ?", 7.days.ago]) }
 
+    # Restrict task runs by a time period of today, this week or all time
+    #
+    # @param String timeframe Which tasks to look for, 'all', 'week', or 'today'
+    def self.by_timeframe(timeframe)
+      if timeframe =='week'
+        this_week
+      elsif timeframe == 'all'
+        all 
+      else
+        today
+      end
+    end
+
+    # @param time_period String Whether to search for today's tasks or this week's tasks
+    # @return Hash Percentage of tasks that succeeded today organized by task name
+    def self.percentages_by_task_type(timeframe = "")
+      task_runs = by_timeframe(timeframe)
+      puts task_runs.inspect
+
+      task_types = task_runs.collect { |tr| tr.task_type }.uniq
+      puts task_types.inspect
+
+      percentages = []
+      task_types.each do |task_type|
+        runs = task_runs.where(:task_type => task_type).count
+        percentages << {
+          :name => task_type,
+          :runs => runs,
+          :percentage => 100 * task_runs.where(:task_type => task_type, :success => true).count / runs,
+        }
+      end
+      return percentages.sort(&:percentage)
+    end
+
     # Appends the input text onto the log text
     #
     # I am aware that these two methods are duplicates nd we could merge them
@@ -54,6 +88,20 @@ module TrackableTasks
          return "Run has not completed."
       end
     end 
+
+    # REFACTOR ME
+    def run_time_or_time_elapsed
+      output = 0
+      if self.end_time         
+         output = Time.at(self.end_time - self.start_time).to_i
+      else
+         output = Time.at(Time.now - self.start_time).to_i
+      end
+      if output < 200
+        output = 200
+      end
+      return output
+    end
     
     # Determines error message color based on success and whether or not there is error text  
     # Return value corresponds to a css color 

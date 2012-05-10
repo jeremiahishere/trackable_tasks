@@ -1,0 +1,22 @@
+<div class="percentages">
+  <table>
+    <tr>
+      <th>Task</th>
+      <th>Runs</th>
+      <th>Success %</th>
+    </tr>
+    <% unless task_stats.empty? %>
+      <% task_stats.each do |stat| %>
+        <tr>
+          <td><%= stat[:name] %></td>
+          <td><%= stat[:runs] %></td>
+          <td><%= stat[:percentage] %>%</td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td>There are no records for this time period.</td>
+      </tr>
+    <% end %>
+  </table>
+</div>
