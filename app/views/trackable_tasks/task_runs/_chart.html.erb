@@ -2,26 +2,28 @@
 
 <div id='chart_container' style="width: 800px; height: 800px; background-color: gray; overflow:scroll; position: relative;" >
   <div id='chart' style="min-height: 10000px; position: absolute; top: 0; left: 0;" >
-    <% @task_runs.each do |task_run| %>
-      <%= link_to trackable_tasks_task_run_path(task_run) do %>
-        <div 
-          id="task_run_<%= task_run.id.to_s %>" 
-          class="task_run"
-          data-id="<%= task_run.id.to_s %>"
-          data-start_time="<%= task_run.start_time.to_i %>"
-          data-run_time="<%= task_run.run_time_or_time_elapsed.to_i %>"
-          data-task_type="<%= task_run.task_type %>"
-          style="
-            position: absolute; 
-            min-height: 1px;
-            height: <%= task_run.run_time_or_time_elapsed.to_i / 10 %>px;
-            width: 150px; 
-            padding: 0px 10px; 
-            margin: 10px; 
-            background-color: <%= task_run.status_color %>; 
-            color: black;" >
-          <%= task_run.task_type %>
-        </div>
+    <% unless task_runs.empty? %>
+      <% task_runs.each do |task_run| %>
+        <%= link_to trackable_tasks_task_run_path(task_run) do %>
+          <div 
+            id="task_run_<%= task_run.id.to_s %>" 
+            class="task_run"
+            data-id="<%= task_run.id.to_s %>"
+            data-start_time="<%= task_run.start_time.to_i %>"
+            data-run_time="<%= task_run.run_time_or_time_elapsed.to_i %>"
+            data-task_type="<%= task_run.task_type %>"
+            style="
+              position: absolute; 
+              min-height: 1px;
+              height: <%= task_run.run_time_or_time_elapsed.to_i / 10 %>px;
+              width: 150px; 
+              padding: 0px 10px; 
+              margin: 10px; 
+              background-color: <%= task_run.status_color %>; 
+              color: black;" >
+            <%= task_run.task_type %>
+          </div>
+        <% end %>
       <% end %>
     <% end %>
   </div>

@@ -54,7 +54,7 @@ module TrackableTasks
           :percentage => 100 * task_runs.where(:task_type => task_type, :success => true).count / runs,
         }
       end
-      return percentages.sort(&:percentage)
+      return percentages.sort { |p| p[:percentage] }
     end
 
     # Appends the input text onto the log text
