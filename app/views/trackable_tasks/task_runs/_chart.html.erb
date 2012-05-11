@@ -4,18 +4,19 @@
   <div id='chart' style="min-height: 10000px; position: absolute; top: 0; left: 0;" >
     <% unless task_runs.empty? %>
       <% task_runs.each do |task_run| %>
+        <% run_time = task_run.run_time_or_time_elapsed.to_i > 200 ? task_run.run_time_or_time_elapsed.to_i : 200 %>
         <%= link_to trackable_tasks_task_run_path(task_run) do %>
           <div 
             id="task_run_<%= task_run.id.to_s %>" 
             class="task_run"
             data-id="<%= task_run.id.to_s %>"
             data-start_time="<%= task_run.start_time.to_i %>"
-            data-run_time="<%= task_run.run_time_or_time_elapsed.to_i %>"
+            data-run_time="<%= run_time %>"
             data-task_type="<%= task_run.task_type %>"
             style="
               position: absolute; 
               min-height: 1px;
-              height: <%= task_run.run_time_or_time_elapsed.to_i / 10 %>px;
+              height: <%= run_time / 10 %>px;
               width: 150px; 
               padding: 0px 10px; 
               margin: 10px; 

@@ -2,6 +2,7 @@
 
 * Added an optional finally method to the TrackableTask::Base
 * Moved the rake task to a railtie
+* Added a basic stats system
 
 == 0.0.13
 

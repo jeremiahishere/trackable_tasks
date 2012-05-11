@@ -2,7 +2,7 @@
 
 <p><strong>Start time: </strong> <%= @task_run.start_time.strftime('%D %r') %> </p>
 <p><strong>End time: </strong> <%= @task_run.end_time.strftime('%D %r') if @task_run.end_time %> </p>
-<p><strong>Run time: </strong> <%= @task_run.run_time %> </p>
+<p><strong>Run time: </strong> <%= @task_run.display_run_time %> </p>
 <p><strong>Success: </strong> <span style="color: <%= @task_run.status_color %>"> <%= @task_run.success %> </span></p>
 <p>
   <strong>Error text: </strong> 

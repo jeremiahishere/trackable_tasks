@@ -81,26 +81,23 @@ module TrackableTasks
     # If there is no end_time, display 'Run has not completed.'  
     # @return [String] The run time formatted in hours, minutes and seconds
     # @return [String] Message that run has not completed 
-    def run_time
+    def display_run_time
       if self.end_time         
-         return Time.at(self.end_time - self.start_time).gmtime.strftime('%R:%S')
+         return run_time_or_time_elapsed.gmtime.strftime('%R:%S')
       else
          return "Run has not completed."
       end
     end 
 
-    # REFACTOR ME
+    # Creates run time based on start and end time
+    # If there is no end_time, returns time between start and now
+    # @return [Time] The run time object
     def run_time_or_time_elapsed
-      output = 0
       if self.end_time         
-         output = Time.at(self.end_time - self.start_time).to_i
+         return Time.at(self.end_time - self.start_time)
       else
-         output = Time.at(Time.now - self.start_time).to_i
+         return Time.at(Time.now - self.start_time)
       end
-      if output < 200
-        output = 200
-      end
-      return output
     end
     
     # Determines error message color based on success and whether or not there is error text  

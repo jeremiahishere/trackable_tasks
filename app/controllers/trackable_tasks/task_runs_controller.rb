@@ -21,6 +21,8 @@ class TrackableTasks::TaskRunsController < ApplicationController
 
   def stats
     @task_runs = TrackableTasks::TaskRun.newest_first.today
+    @today_percentages = TrackableTasks::TaskRun.percentages_by_task_type("today")
+    @week_percentages = TrackableTasks::TaskRun.percentages_by_task_type("week")
   end
   
   # Lists specific task run 

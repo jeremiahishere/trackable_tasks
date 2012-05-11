@@ -1,8 +1,10 @@
+<h1>Stats BETA</h1>
+
 <h2>Today's Stats</h2>
-<%= render :partial => "percentages", :locals => {:task_stats => TrackableTasks::TaskRun.percentages_by_task_type("today") } %>
+<%= render :partial => "percentages", :locals => {:task_stats => @today_percentages } %>
 
 <h2>This Week's Stats</h2>
-<%= render :partial => "percentages", :locals => {:task_stats => TrackableTasks::TaskRun.percentages_by_task_type("week") } %>
+<%= render :partial => "percentages", :locals => {:task_stats => @week_percentages } %>
 
 <h2>Chart</h2>
 <%= render :partial => "chart", :locals => { :task_runs => @task_runs } %>
