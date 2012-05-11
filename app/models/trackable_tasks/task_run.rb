@@ -26,7 +26,7 @@ module TrackableTasks
     # Restrict task runs by a time period of today, this week or all time
     #
     # @param String timeframe Which tasks to look for, 'all', 'week', or 'today'
-    def self.by_timeframe(timeframe)
+    def self.by_timeframe(timeframe = "")
       if timeframe =='week'
         this_week
       elsif timeframe == 'all'
@@ -40,10 +40,7 @@ module TrackableTasks
     # @return Hash Percentage of tasks that succeeded today organized by task name
     def self.percentages_by_task_type(timeframe = "")
       task_runs = by_timeframe(timeframe)
-      puts task_runs.inspect
-
       task_types = task_runs.collect { |tr| tr.task_type }.uniq
-      puts task_types.inspect
 
       percentages = []
       task_types.each do |task_type|

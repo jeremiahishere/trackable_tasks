@@ -1,5 +1,9 @@
 == unreleased changes
 
+* Testing updates
+
+== 0.1.0
+
 * Added an optional finally method to the TrackableTask::Base
 * Moved the rake task to a railtie
 * Added a basic stats system
