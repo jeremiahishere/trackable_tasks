@@ -1,5 +1,9 @@
 == unreleased changes
 
+* Added an optional finally method to the TrackableTask::Base
+* Moved the rake task to a railtie
+* Added a basic stats system
+
 == 0.0.13
 
 * Updated the index and show views to give better formatted error messages

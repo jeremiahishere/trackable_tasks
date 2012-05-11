@@ -1,0 +1,166 @@
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" %>
+
+<div id='chart_container' style="width: 800px; height: 800px; background-color: gray; overflow:scroll; position: relative;" >
+  <div id='chart' style="min-height: 10000px; position: absolute; top: 0; left: 0;" >
+    <% unless task_runs.empty? %>
+      <% task_runs.each do |task_run| %>
+        <% run_time = task_run.run_time_or_time_elapsed.to_i > 200 ? task_run.run_time_or_time_elapsed.to_i : 200 %>
+        <%= link_to trackable_tasks_task_run_path(task_run) do %>
+          <div 
+            id="task_run_<%= task_run.id.to_s %>" 
+            class="task_run"
+            data-id="<%= task_run.id.to_s %>"
+            data-start_time="<%= task_run.start_time.to_i %>"
+            data-run_time="<%= run_time %>"
+            data-task_type="<%= task_run.task_type %>"
+            style="
+              position: absolute; 
+              min-height: 1px;
+              height: <%= run_time / 10 %>px;
+              width: 150px; 
+              padding: 0px 10px; 
+              margin: 10px; 
+              background-color: <%= task_run.status_color %>; 
+              color: black;" >
+            <%= task_run.task_type %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+var now = <%= Time.now.to_i %>
+
+function Bin()  {
+  this.task_runs = []
+
+  this.add_task_run = function(task_run)  {
+    this.task_runs.push(task_run);
+  }
+
+  this.has_room_and_duplicate_type_for = function(task_run)  {
+    this.has_duplicate_type_for(task_run) && this.has_room_for(task_run)
+  }
+
+  //returns true if at least one of the existing task types matches the given one
+  this.has_duplicate_type_for = function(task_run)  {
+    task_type = task_run.attr('data-task_type');
+    for(var i = 0; i < this.task_runs.length; i++)  {
+      if(this.task_runs[i].attr('data-task_type') == task_type)  {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  this.has_room_for = function(task_run)  {
+    for(var i = 0; i < this.task_runs.length; i++)  {
+      if(this.overlap(this.task_runs[i], task_run))  {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  //returns true if b overlaps a
+  //checks if the beginning or end of b is contained within a
+  this.overlap = function(run_a, run_b)  {
+    var a_start = parseInt(run_a.attr('data-start_time'))
+    var a_end = a_start + parseInt(run_a.attr('data-run_time'))
+    var b_start = parseInt(run_b.attr('data-start_time'))
+    var b_end = b_start + parseInt(run_b.attr('data-run_time'))
+
+    //if a's runtime includes the beginning of b
+    //if a's runtime includes the end of b
+    if((a_start < b_start && a_end >= b_start) || (a_start < b_end && a_end >= b_end ))  {
+      return true
+    } else if((b_start < a_start && b_end >= a_start) || (b_start < a_end && b_end >= a_end ))  {
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+function FirstFitPacker()  {
+  this.bins = []
+
+  this.pack = function(task_runs)  {
+    for(var i = 0; i < task_runs.length; i++)  {
+      var task_run = $(task_runs[i])
+      var bin = this.first_fit_bin_pack(task_run);
+      bin.add_task_run($(task_run));
+    }
+    return this.bins
+  }
+
+  this.first_fit_bin_pack = function(task_run)  {
+    var bin;
+
+    //first try a bin that already contains this task type
+    bin = this.first_bin_with_duplicate_task_type(task_run);
+    if(bin !== undefined)  {
+      return bin
+    }
+
+    //then try any bin
+    bin = this.first_bin_with_room(task_run)
+    if(bin !== undefined)  {
+      return bin
+    }
+
+    //make a new bin if nothing fits/base case
+    var new_bin = new Bin()
+    this.bins.push(new_bin)
+    return new_bin
+  }
+
+  this.first_bin_with_duplicate_task_type = function(task_run)  {
+    for(var i = 0; i < this.bins.length; i++)  {
+      if(this.bins[i].has_room_and_duplicate_type_for(task_run))  {
+        return this.bins[i]
+      }
+    }
+    return
+  }
+
+  this.first_bin_with_room = function(task_run)  {
+    for(var i = 0; i < this.bins.length; i++)  {
+      if(this.bins[i].has_room_for(task_run))  {
+        return this.bins[i]
+      }
+    }
+    return
+  }
+}
+
+//returns an array of task runs, longest run time first
+function ordered_task_runs()  {
+  return $('.task_run').sort(function(a, b)  {
+    ar = $(a).attr('data-run_time');
+    br = $(b).attr('data-run_time');
+
+    return (ar < br) ? -1 : (ar > br) ? 1 : 0;
+  });
+}
+
+$(document).ready(function()  {
+  $('.task_run').each(function()  {
+    $(this).css('top', (now - $(this).attr("data-start_time")) / 10);
+  });
+});
+
+function align_task_runs_by_bins(bins)  {
+  for(var i = 0; i < bins.length; i++)  {
+    for(var j = 0; j < bins[i].task_runs.length; j++)  {
+      bins[i].task_runs[j].css('left', 190 * i + "px");
+    }
+  }
+}
+
+var p = new FirstFitPacker();
+var bin_ordering = p.pack(ordered_task_runs());
+align_task_runs_by_bins(bin_ordering)
+</script>

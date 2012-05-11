@@ -166,20 +166,26 @@ describe TaskRun do
     end        
   end
   
-  describe "run_time method" do
+  describe "display_run_time method" do
     before(:each) do
       @run = TaskRun.new()      
     end    
+
+    it "should call run_time_or_time_elapsed" do
+      @run.should_receive(:run_time_or_time_elapsed).and_return(Time.now)
+      @run.end_time = Time.now
+      @run.display_run_time
+    end
     
     it "should return the time formatted in hours, minutes and seconds if end_time is true" do
       @run.start_time = Time.at(3)
       @run.end_time = Time.at(946702800)
-      @run.run_time.should == Time.at(@run.end_time - @run.start_time).gmtime.strftime('%R:%S')       
+      @run.display_run_time.should == Time.at(@run.end_time - @run.start_time).gmtime.strftime('%R:%S')       
     end
     
     it "should return a string 'Run has not completed' if end_time is false" do
       @run.end_time = false
-      @run.run_time.should == "Run has not completed."
+      @run.display_run_time.should == "Run has not completed."
     end    
   end
 

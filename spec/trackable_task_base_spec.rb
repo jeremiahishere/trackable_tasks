@@ -84,6 +84,17 @@ describe TrackableTasks::Base do
       @task_run = TrackableTasks::TaskRun.last
       @task_run.success.should be_false
     end
+
+    it "should call finally after run" do
+      @mt.should_receive(:finally)
+      @mt.run_task
+    end
+
+    it "should call finally even in run errors" do
+      @erroring_task = ErroringTask.new
+      @erroring_task.should_receive(:finally)
+      @erroring_task.run_task
+    end
   end
 
   describe "run method" do

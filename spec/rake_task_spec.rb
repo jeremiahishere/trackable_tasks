@@ -7,7 +7,7 @@ describe "trackable_task rake tasks" do
   before(:each) do
     @rake = Rake::Application.new
     Rake.application = @rake
-    Rake.application.rake_require "dummy/lib/tasks/trackable_tasks"
+    Rake.application.rake_require "../../lib/trackable_tasks/tasks/trackable_tasks"
     Rake::Task.define_task(:environment)
   end
 

@@ -4,13 +4,7 @@ class TrackableTasks::TaskRunsController < ApplicationController
   # Lists all tasks in task run 
   # Defaults to show today's tasks but can also show by week or all time
   def index    
-    if params[:timeframe] =='week'
-      @task_runs = TrackableTasks::TaskRun.newest_first.this_week
-    elsif params[:timeframe] == 'all'
-      @task_runs = TrackableTasks::TaskRun.newest_first
-    else
-      @task_runs = TrackableTasks::TaskRun.newest_first.today
-    end
+    @task_runs = TrackableTasks::TaskRun.newest_first.by_timeframe(params[:timeframe])
 
     # Paginate with kaminari if it is installed
     begin
@@ -23,6 +17,12 @@ class TrackableTasks::TaskRunsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
     end
+  end
+
+  def stats
+    @task_runs = TrackableTasks::TaskRun.newest_first.today
+    @today_percentages = TrackableTasks::TaskRun.percentages_by_task_type("today")
+    @week_percentages = TrackableTasks::TaskRun.percentages_by_task_type("week")
   end
   
   # Lists specific task run 
