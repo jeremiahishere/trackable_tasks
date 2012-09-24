@@ -1,32 +1,43 @@
 <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" %>
 
 <div id='chart_container' style="width: 800px; height: 800px; background-color: gray; overflow:scroll; position: relative;" >
-  <div id='chart' style="min-height: 10000px; position: absolute; top: 0; left: 0;" >
+  <div id='timer' style="margin-left: 0px; margin-top: 0px; width: 30px; line-height: 30px;">
     <% unless task_runs.empty? %>
-      <% task_runs.each do |task_run| %>
-        <% run_time = task_run.run_time_or_time_elapsed.to_i > 200 ? task_run.run_time_or_time_elapsed.to_i : 200 %>
-        <%= link_to trackable_tasks_task_run_path(task_run) do %>
-          <div 
-            id="task_run_<%= task_run.id.to_s %>" 
-            class="task_run"
-            data-id="<%= task_run.id.to_s %>"
-            data-start_time="<%= task_run.start_time.to_i %>"
-            data-run_time="<%= run_time %>"
-            data-task_type="<%= task_run.task_type %>"
-            style="
-              position: absolute; 
-              min-height: 1px;
-              height: <%= run_time / 10 %>px;
-              width: 150px; 
-              padding: 0px 10px; 
-              margin: 10px; 
-              background-color: <%= task_run.status_color %>; 
-              color: black;" >
-            <%= task_run.task_type %>
-          </div>
+      <% time_frame = (Time.now.to_i-task_runs.last.start_time.to_i)/300 %>
+      
+      <% for i in 0..time_frame %>
+        __ <br />
+      <% end %>
+    
+    <% end %>
+  </div>
+  <div id='chart' style="min-height: 10000px; position: absolute; top: 0; left: 0;" >
+      <% unless task_runs.empty? %>
+        <% task_runs.each do |task_run| %>
+          <%# run_time = task_run.run_time_or_time_elapsed.to_i > 200 ? 200 : task_run.run_time_or_time_elapsed.to_i %>
+          <% run_time = task_run.run_time_or_time_elapsed.to_i %>
+          <%= link_to trackable_tasks_task_run_path(task_run) do %>
+            <div 
+              id="task_run_<%= task_run.id.to_s %>" 
+              class="task_run"
+              data-id="<%= task_run.id.to_s %>"
+              data-start_time="<%= task_run.start_time.to_i %>"
+              data-run_time="<%= run_time %>"
+              data-task_type="<%= task_run.task_type %>"
+              style="
+                position: absolute; 
+                min-height: 20px;
+                height: <%= (run_time+1) / 10 %>px;
+                width: 150px; 
+                padding: 0px 10px; 
+                margin: 10px; 
+                background-color: <%= task_run.status_color %>; 
+                color: black;" >
+              <%= task_run.task_type %> -height: <%= (run_time+1) / 10 %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
   </div>
 </div>
 
@@ -74,9 +85,9 @@ function Bin()  {
 
     //if a's runtime includes the beginning of b
     //if a's runtime includes the end of b
-    if((a_start < b_start && a_end >= b_start) || (a_start < b_end && a_end >= b_end ))  {
+    if((a_start <= b_start && a_end >= b_start) || (a_start <= b_end && a_end >= b_end ))  {
       return true
-    } else if((b_start < a_start && b_end >= a_start) || (b_start < a_end && b_end >= a_end ))  {
+    } else if((b_start <= a_start && b_end >= a_start) || (b_start <= a_end && b_end >= a_end ))  {
       return true
     } else {
       return false
@@ -148,14 +159,23 @@ function ordered_task_runs()  {
 
 $(document).ready(function()  {
   $('.task_run').each(function()  {
-    $(this).css('top', (now - $(this).attr("data-start_time")) / 10);
+    var run_time;
+
+    if( $(this).attr("data-run_time") > 200 )
+    {
+      run_time = 200;
+    }
+    else
+    {  run_time = $(this).attr("data-run_time");  }
+
+    $(this).css('top', (now - $(this).attr("data-start_time") - run_time) / 10);
   });
 });
 
 function align_task_runs_by_bins(bins)  {
   for(var i = 0; i < bins.length; i++)  {
     for(var j = 0; j < bins[i].task_runs.length; j++)  {
-      bins[i].task_runs[j].css('left', 190 * i + "px");
+      bins[i].task_runs[j].css('left', ((190 * i) +30) + "px");
     }
   }
 }
