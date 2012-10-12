@@ -2,31 +2,32 @@
 
 <div id='chart_container' style="width: 800px; height: 800px; background-color: gray; overflow:scroll; position: relative;" >
   <div id='chart' style="min-height: 10000px; position: absolute; top: 0; left: 0;" >
-    <% unless task_runs.empty? %>
-      <% task_runs.each do |task_run| %>
-        <% run_time = task_run.run_time_or_time_elapsed.to_i > 200 ? task_run.run_time_or_time_elapsed.to_i : 200 %>
-        <%= link_to trackable_tasks_task_run_path(task_run) do %>
-          <div 
-            id="task_run_<%= task_run.id.to_s %>" 
-            class="task_run"
-            data-id="<%= task_run.id.to_s %>"
-            data-start_time="<%= task_run.start_time.to_i %>"
-            data-run_time="<%= run_time %>"
-            data-task_type="<%= task_run.task_type %>"
-            style="
-              position: absolute; 
-              min-height: 1px;
-              height: <%= run_time / 10 %>px;
-              width: 150px; 
-              padding: 0px 10px; 
-              margin: 10px; 
-              background-color: <%= task_run.status_color %>; 
-              color: black;" >
-            <%= task_run.task_type %>
-          </div>
+      <% unless task_runs.empty? %>
+        <% task_runs.each_with_index do |task_run, index| %>
+          <% run_time = task_run.run_time_or_time_elapsed.to_i > 8000 ? 8000 : task_run.run_time_or_time_elapsed.to_i %>
+          <% height = (Math.log(run_time+3)*20).to_int %>
+          <%= link_to trackable_tasks_task_run_path(task_run) do %>
+            <div 
+              id="task_run_<%= task_run.id.to_s %>" 
+              class="task_run"
+              data-id="<%= task_run.id.to_s %>"
+              data-start_time="<%= task_run.start_time.to_i %>"
+              data-run_time="<%= run_time %>"
+              data-task_type="<%= task_run.task_type %>"
+              style="
+                position: absolute; 
+                min-height: 20px;
+                height: <%= height %>px;
+                width: 150px; 
+                padding: 0px 10px; 
+                margin: 10px; 
+                background-color: <%= task_run.status_color %>; 
+                color: black;" >
+              <%= task_run.task_type %> -index: <%= task_run.id %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
   </div>
 </div>
 
@@ -58,6 +59,10 @@ function Bin()  {
   this.has_room_for = function(task_run)  {
     for(var i = 0; i < this.task_runs.length; i++)  {
       if(this.overlap(this.task_runs[i], task_run))  {
+        
+        var other_top = parseInt(this.task_runs[i].css('top'));
+        task_run.css('top', other_top + "px");
+        
         return false;
       }
     }
@@ -74,9 +79,9 @@ function Bin()  {
 
     //if a's runtime includes the beginning of b
     //if a's runtime includes the end of b
-    if((a_start < b_start && a_end >= b_start) || (a_start < b_end && a_end >= b_end ))  {
+    if((a_start <= b_start && a_end >= b_start) || (a_start <= b_end && a_end >= b_end ))  {
       return true
-    } else if((b_start < a_start && b_end >= a_start) || (b_start < a_end && b_end >= a_end ))  {
+    } else if((b_start <= a_start && b_end >= a_start) || (b_start <= a_end && b_end >= a_end ))  {
       return true
     } else {
       return false
@@ -114,21 +119,24 @@ function FirstFitPacker()  {
     //make a new bin if nothing fits/base case
     var new_bin = new Bin()
     this.bins.push(new_bin)
+    new_bin.index = this.bins.length;
     return new_bin
   }
 
   this.first_bin_with_duplicate_task_type = function(task_run)  {
     for(var i = 0; i < this.bins.length; i++)  {
       if(this.bins[i].has_room_and_duplicate_type_for(task_run))  {
+        this.bins[i].index = i;
         return this.bins[i]
       }
     }
     return
   }
-
+      
   this.first_bin_with_room = function(task_run)  {
     for(var i = 0; i < this.bins.length; i++)  {
       if(this.bins[i].has_room_for(task_run))  {
+        this.bins[i].index = i;
         return this.bins[i]
       }
     }
@@ -147,20 +155,74 @@ function ordered_task_runs()  {
 }
 
 $(document).ready(function()  {
+  var p = new FirstFitPacker();
+  var bin_ordering = p.pack(ordered_task_runs());
+  align_task_runs_by_bins(bin_ordering)
+  
+  var prev_height = 0;
+  var prev_task;
   $('.task_run').each(function()  {
     $(this).css('top', (now - $(this).attr("data-start_time")) / 10);
+    
+    $(this).css('top', prev_height + "px");
+  
+    if(typeof prev_task != 'undefined')
+    {
+      div_overlap(prev_task, $(this));
+    }
+    
+    prev_height = 2 + parseInt($(this).css('top')) + parseInt($(this).css('height'));
+    prev_task = $(this);
+ 
   });
 });
+
+function div_overlap(run_a, run_b)  {
+  var a_start = parseInt(run_a.attr('data-start_time'))
+  var a_end = a_start + parseInt(run_a.attr('data-run_time'))
+  var b_start = parseInt(run_b.attr('data-start_time'))
+  var b_end = b_start + parseInt(run_b.attr('data-run_time'))
+  var a_runtime = a_end - a_start;
+  var b_runtime = b_end - b_start;
+  
+  var top_to_change = parseInt(run_b.css('top'));
+  var diff; 
+  
+  if((a_start <= b_start && a_end >= b_end)) {
+    diff = Math.abs(b_start - a_end);
+    diff /= a_runtime;
+    diff *= parseInt(run_a.css('height'));
+    run_a.css('top', (top_to_change-diff) + "px" );
+  
+  } else if((a_start >= b_start && a_end <= b_end))  {
+      diff = Math.abs(a_start - b_end);
+      diff /= b_runtime;
+      diff *= parseInt(run_b.css('height'));
+      run_b.css('top', (top_to_change-diff) + "px" );
+  
+  } else if((a_start <= b_start && a_end >= b_start) || (b_start <= a_end && b_end >= a_end ))  {
+      diff = Math.abs(a_end - b_start);
+      diff /= b_runtime;
+      diff *= parseInt(run_b.css('height'));
+      run_a.css('top', (top_to_change-diff) + "px" );
+  
+  } else if((b_start <= a_start && b_end >= a_start) || (a_start <= b_end && a_end >= b_end ))  {
+      diff = Math.abs(b_end - a_start);
+      diff /= a_runtime;
+      diff *= parseInt(run_a.css('height'));
+      run_b.css('top', (top_to_change-diff) + "px" );
+  
+  } else {
+    return false
+  }
+}
 
 function align_task_runs_by_bins(bins)  {
   for(var i = 0; i < bins.length; i++)  {
     for(var j = 0; j < bins[i].task_runs.length; j++)  {
-      bins[i].task_runs[j].css('left', 190 * i + "px");
+      bins[i].task_runs[j].css('left', ((190 * i) +30) + "px");
     }
   }
 }
 
-var p = new FirstFitPacker();
-var bin_ordering = p.pack(ordered_task_runs());
-align_task_runs_by_bins(bin_ordering)
 </script>
