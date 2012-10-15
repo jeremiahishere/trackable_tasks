@@ -14,7 +14,7 @@ group :development do
   gem "cucumber", ">= 0"
   gem "cucumber-rails"
   gem "database_cleaner"
-  gem "bundler", "~> 1.2.0"
+  gem "bundler", "~> 1.0.0"
   gem "jeweler", "~> 1.6.3"
   gem "json"
 
