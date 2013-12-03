@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    trackable_tasks (0.1.0)
+    trackable_tasks (0.1.1)
       rails (>= 3.0.7)
       trackable_tasks
 

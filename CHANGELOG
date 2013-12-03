@@ -1,5 +1,9 @@
 == unreleased changes
 
+== 0.1.2
+* Fixed a typo
+* Upgraded to make it work on rails 4
+
 == 0.1.1
 * Testing updates
 * New chart formatting

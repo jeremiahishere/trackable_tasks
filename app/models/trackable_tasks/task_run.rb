@@ -2,7 +2,7 @@ module TrackableTasks
   # Stores information about a single execution of a trackable task
   # Records errors and logs, and gives information about how long the execution took
   class TaskRun < ActiveRecord::Base
-    set_table_name "trackable_tasks_task_runs"
+    self.table_name = "trackable_tasks_task_runs"
 
     attr_accessible :start_time, :end_time, :task_type, :success
 

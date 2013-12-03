@@ -19,7 +19,7 @@ There should be a new rake task called trackable_task:run.
 
 Create a trackable task.  Override the run method and put the code that needs to be tracked inside.
 
-  class MyTask < AbstractTrackableTask
+  class MyTask < TrackableTasks::Base 
     def run 
       log "code with error catching and recovery"
     end 
