@@ -1,5 +1,8 @@
 == unreleased changes
 
+== 0.1.3
+* More rails 4 updates
+
 == 0.1.2
 * Fixed a typo
 * Upgraded to make it work on rails 4
